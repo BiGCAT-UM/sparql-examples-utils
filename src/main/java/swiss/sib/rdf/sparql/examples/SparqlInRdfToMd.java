@@ -23,6 +23,7 @@ import org.jsoup.Jsoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import swiss.sib.rdf.sparql.examples.vocabularies.CITO;
 import swiss.sib.rdf.sparql.examples.vocabularies.SIB;
 import swiss.sib.rdf.sparql.examples.vocabularies.SchemaDotOrg;
 
@@ -40,6 +41,9 @@ public class SparqlInRdfToMd {
 			rq.add("");
 			streamOf(ex, queryId, DCTERMS.LICENSE, null).map(Statement::getObject).map(Value::stringValue)
 					.map(k -> " * License: [" + k + "](" + k + ")").forEach(rq::add);
+			rq.add("");
+			streamOf(ex, queryId, CITO.USES_METHOD_IN, null).map(Statement::getObject).map(Value::stringValue)
+					.map(k -> " * Uses method in: [" + k + "](" + k + ")").forEach(rq::add);
 			rq.add("");
 			streamOf(ex, null, SIB.FILE_NAME, null).map(s -> s.getObject().stringValue())
 					.map(s -> s.replaceAll(".ttl", ""))
